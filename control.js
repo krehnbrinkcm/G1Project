@@ -4,13 +4,15 @@ new (class Control {
         .style('width', '96vw')
         .style('height', '60vw')
 
-
         this.viewA = new ViewA(this, root);
         this.viewB = new ViewB(this, root);
         this.viewC = new ViewC(this, root);
+		const lab = d3.select('body').selectAll('div').append('label');
+		lab.text("choose a view");
+		this.label = lab;
     }
 
     Test(str) {
-        console.log(str);
+		this.label.text(str);
     }
 })()

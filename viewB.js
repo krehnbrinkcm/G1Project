@@ -6,16 +6,13 @@ class ViewB {
         .style('width','50%')
         .style('height','50%');
 
-
-        const svg =div.append('svg');
-
-        con.Test('View B is connected.');
+        const svg = div.append('svg');
 
         svg.append("rect")
         .attr("width", "200")
         .attr("height", "200")
         .attr("fill", "blue")
-        .on("click", function(){})
+        .on("click", function(){con.Test("View B is connected")});
 
         const label =svg.append('text')
         .attr('x', '25%')

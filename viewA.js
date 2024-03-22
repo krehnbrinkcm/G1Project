@@ -6,25 +6,19 @@ class ViewA {
         .style('width','50%')
         .style('height','100%');
 
-
-        div.append('svg');
-
-        con.Test('View A is connected.');
-
-        const svg = d3.select('svg');
+        const svg = div.append('svg');
+		
         svg.append("rect")
         .attr("width", "200")
         .attr("height", "200")
         .attr("fill", "red")
-        .on("click", function(){})
+        .on("click", function(){con.Test("View A is connected")});
 
         const label =svg.append('text')
         .attr('x', '25%')
         .attr('y', '50%')
         .text('View A');
-    }
 
-    Method(para) {
-        // method body
+		
     }
 }
