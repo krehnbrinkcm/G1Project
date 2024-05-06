@@ -10,8 +10,8 @@ class ViewA {
             .attr('width', '100%')
             .attr('height', '100%');
 
-        // Assuming your chart creation logic remains the same
-        d3.csv("Books_df.csv").then(function(data) {
+        // Load data and generate the chart using an arrow function
+        d3.csv("Books_df.csv").then((data) => {
             // Compute average rating for each genre
             const avgRatingsByGenre = d3.rollup(data, 
                 v => d3.mean(v, d => d.Rating), 
@@ -24,7 +24,7 @@ class ViewA {
             // Set up dimensions for the chart
             const numGenres = avgRatingsArray.length;
             const barWidth = 30; // Adjust as needed
-            const margin = { top: 20, right: 30, bottom: 60, left: 50 }; // Increased bottom margin for labels
+            const margin = { top: 20, right: 30, bottom: 60, left: 50 };
             const width = numGenres * barWidth + margin.left + margin.right;
             const height = 300; // Adjust as needed
 
@@ -45,14 +45,18 @@ class ViewA {
 
             // Create and append bars
             svg.selectAll("rect")
-                .data(avgRatingsArray)
-                .enter()
-                .append("rect")
-                .attr("x", d => xScale(d.genre))
-                .attr("y", d => yScale(d.rating))
-                .attr("width", xScale.bandwidth())
-                .attr("height", d => height - margin.bottom - yScale(d.rating)) // Adjust height calculation
-                .attr("fill", "steelblue");
+            .data(avgRatingsArray)
+            .enter()
+            .append("rect")
+            .attr("x", d => xScale(d.genre))
+            .attr("y", d => yScale(d.rating))
+            .attr("width", xScale.bandwidth())
+            .attr("height", d => height - margin.bottom - yScale(d.rating))
+            .attr("fill", "steelblue")
+            .on("click", (event, d) => {
+                console.log("Bar clicked, data:", d);
+                this.con.updateViewB(d);
+            });
 
             // Create x-axis
             svg.append("g")
@@ -71,8 +75,8 @@ class ViewA {
 
             // Add labels
             svg.append("text")
-                .attr("x", width / 2) // Adjust label position
-                .attr("y", height + 50) // Adjust label position
+                .attr("x", width / 2)
+                .attr("y", height + 50)
                 .style("text-anchor", "middle")
                 .text("Genre");
 
@@ -88,6 +92,10 @@ const root = d3.select("body");
 const con = {
     Test: function(message) {
         console.log(message);
+    },
+    updateViewB: function(data) {
+        console.log("Data passed to ViewB:", data);
+        this.viewB.updateGraph(data);
     }
 };
 
