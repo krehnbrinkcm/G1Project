@@ -23,10 +23,10 @@ class ViewA {
 
             // Set up dimensions for the chart
             const numGenres = avgRatingsArray.length;
-            const barWidth = 30; // Adjust as needed
-            const margin = { top: 20, right: 30, bottom: 60, left: 50 }; // Increased bottom margin for labels
+            const barWidth = 35; // Adjust as needed
+            const margin = { top: 20, right: 30, bottom: 100, left: 80}; // Increased bottom margin for labels
             const width = numGenres * barWidth + margin.left + margin.right;
-            const height = 300; // Adjust as needed
+            const height = 350; // Adjust as needed
 
             // Update SVG dimensions
             svg.attr('width', width)
