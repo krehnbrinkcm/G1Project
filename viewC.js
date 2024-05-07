@@ -6,15 +6,13 @@ class ViewC {
         .style('width','50%')
         .style('height','50%');
 
-		//const button = div.append('button');
 		const select = div.append('select')
-		.style('width', '120px')
-		.style('height', '60px')
-		//.style('position', 'absolute')
-		.style('left', '75%')
-		.style('top', '120%')
-		//div1.setAttribute('id', 'div1');
-		//div1.setAttribute("style","width:500px");
+		.style('width', '100px')
+		.style('height', '50px')
+		.style('position', 'absolute')
+		.style('left', '49.5%')
+		.style('top', '56%')
+	
         const svg = div.append('svg');
 		
 		
