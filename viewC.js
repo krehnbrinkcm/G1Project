@@ -6,17 +6,24 @@ class ViewC {
         .style('width','50%')
         .style('height','50%');
 
+		//const button = div.append('button');
+		const select = div.append('select')
+		.style('width', '120px')
+		.style('height', '60px')
+		//.style('position', 'absolute')
+		.style('left', '75%')
+		.style('top', '120%')
+		//div1.setAttribute('id', 'div1');
+		//div1.setAttribute("style","width:500px");
         const svg = div.append('svg');
+		
+		
 
-        svg.append("rect")
-        .attr("width", "200")
-        .attr("height", "200")
-        .attr("fill", "green")
-        .on("click", function(){con.Test("View C is connected")});
+        d3.csv("Books_df.csv").then(function(data) {
 
-        const label =svg.append('text')
-        .attr('x', '25%')
-        .attr('y', '50%')
-        .text('View C');
+
+
+			
+		});
     }
 }
