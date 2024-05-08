@@ -103,6 +103,7 @@ class ViewC {
 		});
 
 		function removeExtras(data){
+			//remove duplicate values for making selector
 			return data.filter((value, index) => data.indexOf(value) === index);
 		}
 
