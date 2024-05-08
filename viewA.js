@@ -10,40 +10,37 @@ class ViewA {
             .attr('width', '100%')
             .attr('height', '100%');
 
-        // Assuming your chart creation logic remains the same
         d3.csv("Books_df.csv").then(function(data) {
-            // Compute average rating for each genre
             const avgRatingsByGenre = d3.rollup(data, 
                 v => d3.mean(v, d => d.Rating), 
                 d => d["Main Genre"]
             );
 
-            // Convert map to array for easier manipulation
+
             const avgRatingsArray = Array.from(avgRatingsByGenre, ([genre, rating]) => ({ genre, rating }));
 
-            // Set up dimensions for the chart
             const numGenres = avgRatingsArray.length;
-            const barWidth = 35; // Adjust as needed
-            const margin = { top: 20, right: 30, bottom: 100, left: 80}; // Increased bottom margin for labels
+            const barWidth = 35; 
+            const margin = { top: 20, right: 30, bottom: 100, left: 80}; 
             const width = numGenres * barWidth + margin.left + margin.right;
-            const height = 350; // Adjust as needed
+            const height = 350; 
 
-            // Update SVG dimensions
+
             svg.attr('width', width)
                 .attr('height', height);
 
-            // Create scales
+ 
             const xScale = d3.scaleBand()
                 .domain(avgRatingsArray.map(d => d.genre))
-                .range([margin.left, width - margin.right]) // Adjust range
+                .range([margin.left, width - margin.right]) 
                 .padding(0.1);
 
             const yScale = d3.scaleLinear()
                 .domain([0, d3.max(avgRatingsArray, d => d.rating)])
                 .nice()
-                .range([height - margin.bottom, margin.top]); // Adjust range
+                .range([height - margin.bottom, margin.top]); 
 
-            // Create and append bars
+           
             svg.selectAll("rect")
                 .data(avgRatingsArray)
                 .enter()
@@ -51,28 +48,28 @@ class ViewA {
                 .attr("x", d => xScale(d.genre))
                 .attr("y", d => yScale(d.rating))
                 .attr("width", xScale.bandwidth())
-                .attr("height", d => height - margin.bottom - yScale(d.rating)) // Adjust height calculation
+                .attr("height", d => height - margin.bottom - yScale(d.rating)) 
                 .attr("fill", "steelblue");
 
-            // Create x-axis
+ 
             svg.append("g")
                 .attr("transform", `translate(0,${height - margin.bottom})`)
                 .call(d3.axisBottom(xScale))
                 .selectAll("text")
                 .attr("transform", "rotate(-45)")
                 .style("text-anchor", "end")
-                .attr("x", -9) // Adjust label position
-                .attr("y", 6); // Adjust label position
+                .attr("x", -9) 
+                .attr("y", 6); 
 
-            // Create y-axis
+       
             svg.append("g")
                 .attr("transform", `translate(${margin.left},0)`)
                 .call(d3.axisLeft(yScale));
 
-            // Add labels
+       
             svg.append("text")
-                .attr("x", width / 2) // Adjust label position
-                .attr("y", height + 50) // Adjust label position
+                .attr("x", width / 2) 
+                .attr("y", height + 50) 
                 .style("text-anchor", "middle")
                 .text("Genre");
 
