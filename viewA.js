@@ -1,7 +1,7 @@
 class ViewA {
     constructor(con, root) {
-        this.con = con; // Controller connection stored as an instance variable
-        this.selectedGenres = []; 
+        this.con = con;
+        this.selectedGenres = [];  // Track selected genres
 
         const div = root.append('div')
             .style('width', '100%')
@@ -11,7 +11,6 @@ class ViewA {
             .attr('width', '100%')
             .attr('height', '100%');
 
-        // Capture `this` to use inside callbacks where `this` might refer to another context
         const self = this;
 
         d3.csv("Books_df.csv").then(function(data) {
@@ -41,7 +40,7 @@ class ViewA {
                 .nice()
                 .range([height - margin.bottom, margin.top]); 
 
-            svg.selectAll("rect")
+            const bars = svg.selectAll("rect")
                 .data(avgRatingsArray)
                 .enter()
                 .append("rect")
@@ -50,7 +49,17 @@ class ViewA {
                 .attr("width", xScale.bandwidth())
                 .attr("height", d => height - margin.bottom - yScale(d.rating))
                 .attr("fill", "steelblue")
-                .on("click", (event, d) => self.con.handleBarClick(d));
+                .on("click", function(event, d) {
+                    const index = self.selectedGenres.indexOf(d.genre);
+                    if (index > -1) {
+                        self.selectedGenres.splice(index, 1); // Remove from selectedGenres if already selected
+                        d3.select(this).attr("fill", "steelblue");
+                    } else {
+                        self.selectedGenres.push(d.genre); // Add to selectedGenres if not already selected
+                        d3.select(this).attr("fill", "red");
+                    }
+                    self.con.handleBarClick(d);
+                });
 
             svg.append("g")
                 .attr("transform", `translate(0,${height - margin.bottom})`)
@@ -82,12 +91,3 @@ class ViewA {
         this.con.handleBarClick(d);
     }
 }
-
-const root = d3.select("body");
-const con = {
-    handleBarClick: function(data) {
-        console.log("Clicked on Genre: ", data.genre, " with Rating: ", data.rating);
-    }
-};
-
-new ViewA(con, root);

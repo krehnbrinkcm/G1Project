@@ -7,9 +7,6 @@ new (class Control {
         this.viewA = new ViewA(this, root);
         this.viewB = new ViewB(this, root);
         this.viewC = new ViewC(this, root);
-		// const lab = d3.select('body').selectAll('div').append('label');
-		// lab.text("choose a view");
-		// this.label = lab;
     }
 
     Test(str) {
