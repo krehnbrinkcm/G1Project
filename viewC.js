@@ -88,7 +88,7 @@ class ViewC {
 				.call(d3.axisLeft(yScale));
 
 			function update(selectedGroup){
-				
+				const auths = [];
 				const curBooks = data.filter((book) => book['Sub Genre'] == selectedGroup);
 			
 				i = 0;

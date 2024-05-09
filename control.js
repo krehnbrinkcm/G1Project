@@ -4,8 +4,8 @@ new (class Control {
         .style('width', '96vw')
         .style('height', '60vw')
 
-        this.viewA = new ViewA(this, root);
-        this.viewB = new ViewB(this, root);
+        this.viewA = new ViewA2(this, root);
+        this.viewB = new ViewB2(this, root);
         this.viewC = new ViewC(this, root);
     }
 
