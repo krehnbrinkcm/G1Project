@@ -43,10 +43,9 @@ class ViewB {
             this.selectedData.push(newData);
         }
 
-        // Update xScale domain with current selected data genres
         this.xScale.domain(this.selectedData.map(d => d.genre));
 
-        // Update x-axis with new scale
+    
         this.chartGroup.select('.x-axis').call(d3.axisBottom(this.xScale));
 
         const bars = this.chartGroup.selectAll('rect')

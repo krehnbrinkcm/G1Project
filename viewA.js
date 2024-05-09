@@ -1,7 +1,7 @@
 class ViewA {
     constructor(con, root) {
         this.con = con;
-        this.selectedGenres = [];  // Track selected genres
+        this.selectedGenres = []; 
 
         const div = root.append('div')
             .style('width', '100%')
@@ -52,10 +52,10 @@ class ViewA {
                 .on("click", function(event, d) {
                     const index = self.selectedGenres.indexOf(d.genre);
                     if (index > -1) {
-                        self.selectedGenres.splice(index, 1); // Remove from selectedGenres if already selected
+                        self.selectedGenres.splice(index, 1);
                         d3.select(this).attr("fill", "steelblue");
                     } else {
-                        self.selectedGenres.push(d.genre); // Add to selectedGenres if not already selected
+                        self.selectedGenres.push(d.genre); 
                         d3.select(this).attr("fill", "red");
                     }
                     self.con.handleBarClick(d);
