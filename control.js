@@ -15,4 +15,8 @@ new (class Control {
     Test(str) {
 		this.label.text(str);
     }
+
+    handleBarClick(data) {
+      this.viewB.updateView(data);
+  }
 })()

@@ -1,6 +1,7 @@
 class ViewA {
     constructor(con, root) {
-        this.con = con;
+        this.con = con; // Controller connection stored as an instance variable
+        this.selectedGenres = []; 
 
         const div = root.append('div')
             .style('width', '100%')
@@ -10,12 +11,14 @@ class ViewA {
             .attr('width', '100%')
             .attr('height', '100%');
 
+        // Capture `this` to use inside callbacks where `this` might refer to another context
+        const self = this;
+
         d3.csv("Books_df.csv").then(function(data) {
             const avgRatingsByGenre = d3.rollup(data, 
                 v => d3.mean(v, d => d.Rating), 
                 d => d["Main Genre"]
             );
-
 
             const avgRatingsArray = Array.from(avgRatingsByGenre, ([genre, rating]) => ({ genre, rating }));
 
@@ -25,11 +28,9 @@ class ViewA {
             const width = numGenres * barWidth + margin.left + margin.right;
             const height = 350; 
 
-
             svg.attr('width', width)
                 .attr('height', height);
 
- 
             const xScale = d3.scaleBand()
                 .domain(avgRatingsArray.map(d => d.genre))
                 .range([margin.left, width - margin.right]) 
@@ -40,7 +41,6 @@ class ViewA {
                 .nice()
                 .range([height - margin.bottom, margin.top]); 
 
-           
             svg.selectAll("rect")
                 .data(avgRatingsArray)
                 .enter()
@@ -48,10 +48,10 @@ class ViewA {
                 .attr("x", d => xScale(d.genre))
                 .attr("y", d => yScale(d.rating))
                 .attr("width", xScale.bandwidth())
-                .attr("height", d => height - margin.bottom - yScale(d.rating)) 
-                .attr("fill", "steelblue");
+                .attr("height", d => height - margin.bottom - yScale(d.rating))
+                .attr("fill", "steelblue")
+                .on("click", (event, d) => self.con.handleBarClick(d));
 
- 
             svg.append("g")
                 .attr("transform", `translate(0,${height - margin.bottom})`)
                 .call(d3.axisBottom(xScale))
@@ -61,12 +61,10 @@ class ViewA {
                 .attr("x", -9) 
                 .attr("y", 6); 
 
-       
             svg.append("g")
                 .attr("transform", `translate(${margin.left},0)`)
                 .call(d3.axisLeft(yScale));
 
-       
             svg.append("text")
                 .attr("x", width / 2) 
                 .attr("y", height + 50) 
@@ -79,12 +77,16 @@ class ViewA {
                 .text("Average Rating");
         });
     }
+
+    handleBarClick(d) {
+        this.con.handleBarClick(d);
+    }
 }
 
 const root = d3.select("body");
 const con = {
-    Test: function(message) {
-        console.log(message);
+    handleBarClick: function(data) {
+        console.log("Clicked on Genre: ", data.genre, " with Rating: ", data.rating);
     }
 };
 
